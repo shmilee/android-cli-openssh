@@ -1,0 +1,20 @@
+diff -Nur openssl.org/Apps.mk openssl/Apps.mk
+--- openssl.org/Apps.mk	2016-04-12 16:04:18.000000000 +0800
++++ openssl/Apps.mk	2016-04-12 16:04:37.000000000 +0800
+@@ -30,4 +30,5 @@
+ LOCAL_CFLAGS := $(host_c_flags)
+ LOCAL_ADDITIONAL_DEPENDENCIES := $(local_additional_dependencies)
+ include $(LOCAL_PATH)/android-config.mk
+-include $(BUILD_HOST_EXECUTABLE)
++# Not supported by NDK
++#include $(BUILD_HOST_EXECUTABLE)
+diff -Nur openssl.org/Crypto.mk openssl/Crypto.mk
+--- openssl.org/Crypto.mk	2016-04-12 16:04:18.000000000 +0800
++++ openssl/Crypto.mk	2016-04-12 16:04:37.000000000 +0800
+@@ -82,4 +82,5 @@
+ LOCAL_MODULE_TAGS := optional
+ LOCAL_MODULE:= libcrypto_static
+ LOCAL_ADDITIONAL_DEPENDENCIES := $(local_additional_dependencies)
+-include $(BUILD_HOST_STATIC_LIBRARY)
++# Not supported by NDK
++#include $(BUILD_HOST_STATIC_LIBRARY)

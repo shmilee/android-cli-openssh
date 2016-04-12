@@ -1,0 +1,38 @@
+diff -Nur openssh.org/Android.mk openssh/Android.mk
+--- openssh.org/Android.mk	2016-04-12 16:04:18.000000000 +0800
++++ openssh/Android.mk	2016-04-12 16:05:42.000000000 +0800
+@@ -32,10 +32,11 @@
+ #    openbsd-compat/getrrsetbyname.c
+ #    openbsd-compat/xcrypt.c 
+ 
+-LOCAL_C_INCLUDES := external/openssl/include external/zlib
++LOCAL_C_INCLUDES := external/openssl/include external/zlib ./
+ PRIVATE_C_INCLUDES := external/openssl/openbsd-compat
+ 
+-LOCAL_SHARED_LIBRARIES += libssl libcrypto libdl libz
++LOCAL_SHARED_LIBRARIES += libssl libcrypto libdl
++LOCAL_LDLIBS := -lz
+ 
+ LOCAL_MODULE := libssh
+ 
+@@ -54,7 +55,7 @@
+     sshconnect.c sshconnect1.c sshconnect2.c mux.c \
+     roaming_common.c roaming_client.c
+ 
+-LOCAL_MODULE := ssh
++LOCAL_MODULE := ssh_exe
+ 
+ LOCAL_C_INCLUDES := external/openssl/include
+ PRIVATE_C_INCLUDES := external/openssl/openbsd-compat
+diff -Nur openssh.org/uidswap.c openssh/uidswap.c
+--- openssh.org/uidswap.c	2016-04-12 16:04:18.000000000 +0800
++++ openssh/uidswap.c	2016-04-12 16:04:41.000000000 +0800
+@@ -29,7 +29,7 @@
+ 
+ #ifdef ANDROID
+ #include <private/android_filesystem_config.h>
+-#include <sys/capability.h>
++#include <linux/capability.h>
+ #include <linux/prctl.h>
+ #endif
+ 
