@@ -1,0 +1,12 @@
+[submodule "jni/external/zlib"]
+	path = jni/external/zlib
+	url = https://github.com/CyanogenMod/android_external_zlib.git
+	branch = cm-11.0
+[submodule "jni/external/openssl"]
+	path = jni/external/openssl
+	url = https://github.com/CyanogenMod/android_external_openssl.git
+	branch = cm-11.0
+[submodule "jni/external/openssh"]
+	path = jni/external/openssh
+	url = https://github.com/CyanogenMod/android_external_openssh.git
+	branch = cm-11.0
