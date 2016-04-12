@@ -22,8 +22,11 @@ Requirements:
 ```
 git clone https://github.com/shmilee/android-cli-openssh.git
 cd android-cli-openssh
-./ssh-build.sh <ANDROID_NDK_ROOT> && find compiled/
+./ssh-build.sh <ANDROID_NDK_ROOT> <_PATH_SSH_PROGRAM> && find compiled/
 ```
+
+__<_PATH_SSH_PROGRAM> is the ssh install path. default is /system/busybox/ssh__.
+This affects ``scp`` and ``sftp``.
 
 HOWTO use
 =========
@@ -39,16 +42,17 @@ Install
 --------
 
 ```
-export PATH=<device-path/for/ssh-bin>:$PATH
-export LD_LIBRARY_PATH=<device-path/for/ssh-lib>:$LD_LIBRARY_PATH
+device_path_for_ssh_bin=`dirname <_PATH_SSH_PROGRAM>`
+export PATH=${device_path_for_ssh_bin}:$PATH
+export LD_LIBRARY_PATH=<device_path_for_ssh_lib>:$LD_LIBRARY_PATH
 
-bin/scp         -> <device-path/for/ssh-bin>/scp
-bin/sftp        -> <device-path/for/ssh-bin>/sftp
-bin/sftp-server -> <device-path/for/ssh-bin>/sftp-server
-bin/sshd        -> <device-path/for/ssh-bin>/sshd
-bin/ssh_exe     -> <device-path/for/ssh-bin>/ssh
-bin/ssh-keygen  -> <device-path/for/ssh-bin>/ssh-keygen
-lib/libssh.so   -> <device-path/for/ssh-lib>/libssh.so
+bin/ssh_exe     -> <_PATH_SSH_PROGRAM>
+bin/scp         -> ${device_path_for_ssh_bin}/scp
+bin/sftp        -> ${device_path_for_ssh_bin}/sftp
+bin/sftp-server -> ${device_path_for_ssh_bin}/sftp-server
+bin/sshd        -> ${device_path_for_ssh_bin}/sshd
+bin/ssh-keygen  -> ${device_path_for_ssh_bin}/ssh-keygen
+lib/libssh.so   -> <device_path_for_ssh_lib>/libssh.so
 ```
 
 Command info
@@ -136,4 +140,13 @@ $ strings `which sshd`|egrep '\.ssh/|/ssh_'
 .ssh/rc
 /data/.ssh/known_hosts2
 /data/ssh/ssh_known_hosts2
+
+$ strings `which scp`|grep '/system/'
+/system/bin/linker
+/system/busybox/ssh
+
+$ strings `which sftp`|grep '/system/'
+/system/bin/linker
+/system/bin/sh
+/system/busybox/ssh
 ```

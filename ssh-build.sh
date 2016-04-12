@@ -6,12 +6,15 @@
 
 helper()
 {
-    echo "Usage: $0 <ANDROID_NDK_ROOT>"
+    echo "Usage: $0 <ANDROID_NDK_ROOT> <_PATH_SSH_PROGRAM>"
+    echo "  ANDROID_NDK_ROOT    default is $HOME/android/android-ndk-r8e"
+    echo "  _PATH_SSH_PROGRAM   default is /system/busybox/ssh"
     exit 1
 }
 
 NCPU=$(grep -ci processor /proc/cpuinfo)
 ANDROID_NDK_ROOT=${1:-"$HOME/android/android-ndk-r8e"}
+_PATH_SSH_PROGRAM=${2:-"/system/busybox/ssh"}
 export ANDROID_NDK_ROOT
 
 if [ ! -d $ANDROID_NDK_ROOT ]; then
@@ -33,6 +36,7 @@ cd jni/external/
 for p in $(ls ../../patches/*.patch); do
     patch -b -p0 < $p || exit 1
 done
+sed -i "s|\(^#define _PATH_SSH_PROGRAM \"\)/system/bin/ssh\"|\1${_PATH_SSH_PROGRAM}\"|g" openssh/config.h
 
 echo ">>> build"
 cd ../
